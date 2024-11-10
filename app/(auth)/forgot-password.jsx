@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
+import BackButton from "../../components/BackButton";
 
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,6 +37,7 @@ const ForgotPassword = () => {
   return (
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>
+        <BackButton/>
         <View className="w-full flex items-center px-4 mt-36">
           <Text className="text-[30px] text-black-200 font-pbold">
             Forgot Password

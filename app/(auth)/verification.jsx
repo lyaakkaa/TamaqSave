@@ -14,6 +14,7 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
+import BackButton from "../../components/BackButton";
 
 const CELL_COUNT = 4;
 
@@ -36,6 +37,7 @@ const Verification = () => {
   return (
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>
+        <BackButton/>
         <View className="w-full flex items-center px-4 mt-36">
           <Text className="text-[30px] text-black-200 font-pbold">
             Verification

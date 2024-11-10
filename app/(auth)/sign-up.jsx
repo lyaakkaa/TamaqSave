@@ -5,11 +5,15 @@ import {
   Dimensions,
   Alert,
   SafeAreaView,
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import React, { useState } from "react";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
+import icons from "../../constants/icons";
+import BackButton from "../../components/BackButton";
 
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,6 +63,8 @@ const SignUp = () => {
   return (
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>
+        <BackButton/>
+
         <View className="w-full flex items-center px-4 mt-36">
           <Text className="text-[30px] text-black-200 font-pbold">Sign Up</Text>
           <Text className="text-[16px] text-black-300 font-pregular mb-8">
