@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
+import { router } from "expo-router";
 
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,6 +28,7 @@ const ForgotPassword = () => {
     }
     setIsSubmitting(true);
     // Submit logic here
+    router.push("/verification")
     setIsSubmitting(false);
    
   };
