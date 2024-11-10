@@ -4,17 +4,12 @@ import {
   ScrollView,
   Dimensions,
   Alert,
-  Image,
   SafeAreaView,
-  TextInput,
-  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import images from "../../constants/images";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
-import { Link, router } from "expo-router";
-
+import { router } from "expo-router";
 
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,30 +20,39 @@ const SignUp = () => {
     phone: "",
   });
   const [reTypePassword, setReTypePassword] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validateField = (fieldName, value) => {
+    let error = "";
+    if (!value) {
+      error = "This field is required";
+    } else if (fieldName === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        error = "Please enter a valid email address";
+      }
+    } else if (fieldName === "phone" && value.length < 10) {
+      error = "Please enter a valid phone number";
+    } else if (fieldName === "reTypePassword" && value !== form.password) {
+      error = "Passwords do not match";
+    }
+    setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: error }));
+  };
+
+  const handleInputChange = (fieldName, value) => {
+    setForm((prevForm) => ({ ...prevForm, [fieldName]: value }));
+    validateField(fieldName, value);
+  };
 
   const submit = async () => {
-    if (!form.name || !form.email || !form.password || !form.phone || !reTypePassword) {
+    if (Object.values(form).some((field) => !field) || !reTypePassword) {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(form.email)) {
-      Alert.alert("Error", "Please enter a valid email address");
-      return;
-    }
-    if (form.phone.length < 10) {
-      Alert.alert("Error", "Please enter a valid phone number");
-      return;
-    }
-
-    if (form.password !== reTypePassword) {
-      Alert.alert("Error", "Passwords do not match");
-      return;
-    }
-
     setIsSubmitting(true);
-    // Submit logic here
+    // todo send form values to server
+    console.log(form);
     setIsSubmitting(false);
   };
 
@@ -72,42 +76,72 @@ const SignUp = () => {
             title="Name"
             value={form.name}
             placeholder="John Doe"
-            handleChangeText={(e) => setForm({ ...form, name: e })}
+            handleChangeText={(e) => handleInputChange("name", e)}
             otherStyles="mt-7"
           />
+          {errors.name && (
+            <Text className="text-red-500 font-pmedium">{errors.name}</Text>
+          )}
+
           <FormField
             title="Email"
             value={form.email}
             placeholder="example@gmail.com"
-            handleChangeText={(e) => setForm({ ...form, email: e })}
+            handleChangeText={(e) => handleInputChange("email", e)}
             otherStyles="mt-7"
             keyboardType="email-address"
           />
+          {errors.email && (
+            <Text className="text-red-500 font-pmedium">{errors.email}</Text>
+          )}
+
+          {/* <FormField
+            title="Phone Number"
+            value={form.phone}
+            placeholder="+1234567890"
+            handleChangeText={(e) => handleInputChange("phone", e)}
+            otherStyles="mt-7"
+            keyboardType="numeric"
+          /> */}
           <FormField
             title="Phone Number"
             value={form.phone}
             placeholder="+1234567890"
-            handleChangeText={(e) => setForm({ ...form, phone: e })}
             otherStyles="mt-7"
-            keyboardType='numeric'
+            isPhoneInput
+            handleChangeText={(e) => handleInputChange("phone", e)}
+            keyboardType="numeric"
           />
+          {errors.phone && (
+            <Text className="text-red-500 font-pmedium">{errors.phone}</Text>
+          )}
+
           <FormField
             title="Password"
             value={form.password}
             placeholder="**********"
-            handleChangeText={(e) => setForm({ ...form, password: e })}
+            handleChangeText={(e) => handleInputChange("password", e)}
             otherStyles="mt-7"
-      
           />
+          {errors.password && (
+            <Text className="text-red-500 font-pmedium">{errors.password}</Text>
+          )}
+
           <FormField
             title="Re-Type Password"
             value={reTypePassword}
             placeholder="**********"
-            handleChangeText={(e) => setReTypePassword(e)}
+            handleChangeText={(e) => {
+              setReTypePassword(e);
+              validateField("reTypePassword", e);
+            }}
             otherStyles="mt-7"
-     
           />
-
+          {errors.reTypePassword && (
+            <Text className="text-red-500 font-pmedium">
+              {errors.reTypePassword}
+            </Text>
+          )}
 
           <CustomButton
             title="Sign Up"
@@ -127,9 +161,6 @@ const SignUp = () => {
               LOG IN
             </Text>
           </View>
-
-
-
         </View>
       </ScrollView>
     </SafeAreaView>
