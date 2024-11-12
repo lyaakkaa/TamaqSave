@@ -5,8 +5,9 @@ import {
   Dimensions,
   SafeAreaView,
   StyleSheet,
+  TouchableOpacity
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomButton from "../../components/CustomButton";
 import {
   CodeField,
@@ -15,10 +16,12 @@ import {
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 import BackButton from "../../components/BackButton";
-
+import Animated, { FadeInRight } from "react-native-reanimated";
+import { useLocalSearchParams } from "expo-router";
 const CELL_COUNT = 4;
 
 const Verification = () => {
+  const { email } = useLocalSearchParams(); 
   const [value, setValue] = useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -26,6 +29,19 @@ const Verification = () => {
     setValue,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resendTimer, setResendTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    if (resendTimer > 0) {
+      const timer = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else {
+      setCanResend(true);
+    }
+  }, [resendTimer]);
 
   const submit = () => {
     setIsSubmitting(true);
@@ -34,17 +50,32 @@ const Verification = () => {
     setIsSubmitting(false);
   };
 
+  const handleResend = () => {
+    if (canResend) {
+      setResendTimer(60);
+      setCanResend(false);
+      // Logic to resend the verification code
+      console.log("Verification code resent");
+    }
+  };
+
   return (
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>
-        <BackButton/>
+        <BackButton />
         <View className="w-full flex items-center px-4 mt-24">
-          <Text className="text-[30px] text-black-200 font-pbold">
+          <Animated.Text
+            className="text-[30px] text-black-200 font-pbold"
+            entering={FadeInRight.delay(300).duration(500)}
+          >
             Verification
-          </Text>
-          <Text className="text-[16px] text-black-300 font-pregular mb-8">
-            We have sent a code to your email
-          </Text>
+          </Animated.Text>
+          <Animated.Text
+            className="text-[16px] text-black-300 font-pregular mb-8"
+            entering={FadeInRight.delay(500).duration(500)}
+          >
+            We have sent a code to {email}
+          </Animated.Text>
         </View>
 
         <View
@@ -57,10 +88,17 @@ const Verification = () => {
             <Text className="text-[13px] text-black-300 font-pregular">
               CODE
             </Text>
-            <Text className="text-[13px] text-black-300 font-pregular">
-              Resend in.50sec
-            </Text>
+            <TouchableOpacity onPress={handleResend} disabled={!canResend}>
+              <Text
+                className={`text-[13px] font-pregular ${
+                  canResend ? "text-secondary" : "text-gray-400"
+                }`}
+              >
+                {canResend ? "Resend" : `Resend in ${resendTimer}s`}
+              </Text>
+            </TouchableOpacity>
           </View>
+
           <CodeField
             ref={ref}
             {...props}

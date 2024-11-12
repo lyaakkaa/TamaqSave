@@ -38,6 +38,8 @@ const FormField = ({
               color: "#232533",
               fontSize: 16,
               lineHeight: 24,
+              fontFamily: "Poppins",
+              fontWeight: "medium"
             }}
             codeTextStyle={{
               color: "#232533",

@@ -12,8 +12,8 @@ import React, { useState } from "react";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
-import icons from "../../constants/icons";
 import BackButton from "../../components/BackButton";
+import Animated, { FadeInDown, FadeInRight } from "react-native-reanimated";
 
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,13 +63,23 @@ const SignUp = () => {
   return (
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>
-        <BackButton/>
+        <Animated.View entering={FadeInDown.delay(200).duration(400)}>
+          <BackButton />
+        </Animated.View>
 
         <View className="w-full flex items-center px-4 mt-24">
-          <Text className="text-[30px] text-black-200 font-pbold">Sign Up</Text>
-          <Text className="text-[16px] text-black-300 font-pregular mb-8">
+          <Animated.Text
+            className="text-[30px] text-black-200 font-pbold"
+            entering={FadeInRight.delay(300).duration(500)}
+          >
+            Sign Up
+          </Animated.Text>
+          <Animated.Text
+            className="text-[16px] text-black-300 font-pregular mb-8"
+            entering={FadeInRight.delay(500).duration(500)}
+          >
             Please sign up to get started
-          </Text>
+          </Animated.Text>
         </View>
 
         <View

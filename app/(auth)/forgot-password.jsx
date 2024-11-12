@@ -11,6 +11,7 @@ import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
 import BackButton from "../../components/BackButton";
+import Animated, { FadeInRight } from "react-native-reanimated";
 
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,23 +29,31 @@ const ForgotPassword = () => {
       return;
     }
     setIsSubmitting(true);
-    // Submit logic here
-    router.push("/verification")
+ 
+    router.push({
+      pathname: "/verification",
+      params: { email },
+    });
     setIsSubmitting(false);
-   
   };
 
   return (
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>
-        <BackButton/>
+        <BackButton />
         <View className="w-full flex items-center px-4 mt-24">
-          <Text className="text-[30px] text-black-200 font-pbold">
+          <Animated.Text
+            className="text-[30px] text-black-200 font-pbold"
+            entering={FadeInRight.delay(300).duration(500)}
+          >
             Forgot Password
-          </Text>
-          <Text className="text-[16px] text-black-300 font-pregular mb-8">
+          </Animated.Text>
+          <Animated.Text
+            className="text-[16px] text-black-300 font-pregular mb-8"
+            entering={FadeInRight.delay(500).duration(500)}
+          >
             Please enter your email
-          </Text>
+          </Animated.Text>
         </View>
 
         <View
