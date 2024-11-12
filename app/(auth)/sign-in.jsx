@@ -12,6 +12,7 @@ import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import { router } from "expo-router";
 import BackButton from "../../components/BackButton";
+import SocialLoginButtons from "../../components/SocialLoginButtons";
 
 const SignIn = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,7 +34,7 @@ const SignIn = () => {
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>
         <BackButton/>
-        <View className="w-full flex items-center px-4 mt-36">
+        <View className="w-full flex items-center px-4 mt-24">
           <Text className="text-[30px] text-black-200 font-pbold">Log In</Text>
           <Text className="text-[16px] text-black-300 font-pregular mb-8">
             Please sign in to your existing account
@@ -112,6 +113,7 @@ const SignIn = () => {
               <TouchableOpacity>
                 <Image source={images.appleIcon} className="h-10 w-10" />
               </TouchableOpacity> */}
+              <SocialLoginButtons emailHref={"/sign-up"}/>
           </View>
         </View>
       </ScrollView>

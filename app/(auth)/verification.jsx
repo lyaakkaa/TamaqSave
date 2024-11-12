@@ -38,7 +38,7 @@ const Verification = () => {
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>
         <BackButton/>
-        <View className="w-full flex items-center px-4 mt-36">
+        <View className="w-full flex items-center px-4 mt-24">
           <Text className="text-[30px] text-black-200 font-pbold">
             Verification
           </Text>

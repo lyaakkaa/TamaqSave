@@ -65,7 +65,7 @@ const SignUp = () => {
       <ScrollView>
         <BackButton/>
 
-        <View className="w-full flex items-center px-4 mt-36">
+        <View className="w-full flex items-center px-4 mt-24">
           <Text className="text-[30px] text-black-200 font-pbold">Sign Up</Text>
           <Text className="text-[16px] text-black-300 font-pregular mb-8">
             Please sign up to get started
