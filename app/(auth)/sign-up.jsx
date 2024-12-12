@@ -53,13 +53,20 @@ const SignUp = () => {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
-
+  
     setIsSubmitting(true);
-    // todo send form values to server
-    console.log(form);
-    setIsSubmitting(false);
+    
+    try {
+      // TODO: back
+      console.log(form);
+      router.push("/onboarding");
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-
+  
   return (
     <SafeAreaView className="bg-mintyGray h-full">
       <ScrollView>

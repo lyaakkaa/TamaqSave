@@ -26,7 +26,7 @@ const Hello = () => {
           <CustomButton
             title="START"
             handlePress={() => {
-              router.push("/onboarding");
+              router.push("/sign-in");
             }}
             containerStyles="w-full mt-16"
           />
